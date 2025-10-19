@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tugas1_array_tyasseptiani_xpplg1", "tugas1_array_tyasseptiani_xpplg1\tugas1_array_tyasseptiani_xpplg1.csproj", "{579D6D6E-25B5-4EE6-8542-93B4E2DD15B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{579D6D6E-25B5-4EE6-8542-93B4E2DD15B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{579D6D6E-25B5-4EE6-8542-93B4E2DD15B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{579D6D6E-25B5-4EE6-8542-93B4E2DD15B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{579D6D6E-25B5-4EE6-8542-93B4E2DD15B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02573714-FC7F-418E-8DD0-EE13920116C0}
+	EndGlobalSection
+EndGlobal
