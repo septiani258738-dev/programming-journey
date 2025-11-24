@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PROGRAM_PEMBAYARAN _TIKET_MASUK_WISATA_tyasseptiani_xpplg1", "PROGRAM_PEMBAYARAN _TIKET_MASUK_WISATA_tyasseptiani_xpplg1\PROGRAM_PEMBAYARAN _TIKET_MASUK_WISATA_tyasseptiani_xpplg1.csproj", "{A7270C7A-EAD2-43CB-B61A-6715E9E630ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7270C7A-EAD2-43CB-B61A-6715E9E630ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7270C7A-EAD2-43CB-B61A-6715E9E630ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7270C7A-EAD2-43CB-B61A-6715E9E630ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7270C7A-EAD2-43CB-B61A-6715E9E630ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4157AD16-113B-42F7-8100-771250EAA195}
+	EndGlobalSection
+EndGlobal
