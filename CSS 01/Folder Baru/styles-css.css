@@ -1,0 +1,17 @@
+/*Styles for the external CSS file*/
+body{
+    font-family:'Courier New', Courier, monospace;
+    background-color: pink;
+    margin:0;
+    padding:0;
+}
+h1{
+    color:#333;
+    text-align: left;
+    margin-top:20px;
+}
+p{
+    color: black;
+    line-height: 1.6px ;
+    padding:0 20px;
+}
