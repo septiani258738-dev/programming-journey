@@ -1,0 +1,17 @@
+/*selector tag*/
+p{
+    color:peachpuff;
+}
+/*sekector class*/
+.highlight{
+    background-color: papayawhip;
+}
+/*selector id*/
+#unique-section{
+    border: 2px solid black;
+    padding: 10px;
+}
+/*selector universal*/
+*{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
