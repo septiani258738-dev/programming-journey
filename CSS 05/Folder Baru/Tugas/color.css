@@ -1,0 +1,29 @@
+h1{
+    background-color:rgb(176, 224, 230);
+    padding: 20px;
+    margin: 10px;
+    color:rgb(255, 255, 255); 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.warna1{
+    background-color: hsla(0, 0%, 20%, 1);
+    padding-left: 20px;
+    margin: 10px;
+    color: white;
+    font-size: 25px;
+    font-family: 'Brush Script MT', 'Alex Brush', cursive;;
+}
+.warna2{
+    background-color: rgba(2, 12, 27, 1);
+    padding: 20px;
+    margin: 10px;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.warna3{
+    background-color: hsl(220, 100%, 10%);
+    padding: 20px;
+    margin: 10px;
+    color: white;
+    font-family:'Roboto', sans-serif; font-weight: 300;;
+}
