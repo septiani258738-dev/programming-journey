@@ -1,0 +1,18 @@
+.judul{
+    font-size: 40px;
+}
+.teks{
+    font-size: 16pt;
+}
+.box-1{
+    width: 6cm;
+    height: 3cm;
+    background-color: lightblue;
+    margin-bottom: 20px;
+}
+.box-2{
+    width: 50%;
+    height: 100px;
+    background-color: lightskyblue;
+    margin-bottom: 100px;
+}
