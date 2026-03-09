@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Box Model</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: maroon;
+        }
+        header{
+            margin-bottom: 2em;
+            text-align: center;
+        }
+        article{
+            border: 1px solid ;
+            border-radius: 0.8em;
+            padding: 1em;
+            margin-bottom: 1em;
+            background-color: whitesmoke;
+        }
+        .action-buttons{
+            margin-top: 1.5em;
+        }
+        .action-buttons button{
+            display: inline;
+            margin-right: 1em;
+            padding: 0.5em 1em;
+            border-radius: 0.8em;
+            border: 1px solid silver;
+        }
+        .container {
+            max-width: 600px;  
+            margin: 0 auto;     
+            background-color: snow;
+            padding: 20px;
+            border: 3px solid firebrick;
+        }
+        .row{
+            display:flex;
+            justify-content:space-between;
+        }
+        .column{
+            width:50%;
+            text-align:left;
+        }
+        footer{
+            font-size: small;
+            margin-top: 6em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Profil Saya</h1>
+        <p>Foto Saya</p>
+        <img src="Foto.jpg" style="width: 100px; border-radius:10px;"/>
+    </header>
+
+    <article>
+        <p>
+            Saya adalah seorang pelajar di SMK Negeri 1 Kandeman. Jurusan saya adalah
+            Pengembngan Perangkat Lunak dan Gim. Saya memiliki hobi menggambar dan belajar 
+            sesuatu hal baru yang belum pernah saya coba.
+        </p>
+
+        <div class="action-buttons">
+            <button>&#128077 Like</button>
+            <button>&#128172 Comment</button>
+            <button>&#xF16D Share</button>
+        </div>
+    </article>
+
+    <article>
+        <p>
+            Sama seperti baris kode pertama, masa kelas 10 di 
+            SMKN 1 Kandeman adalah awal dari program besar kehidupan saya.
+            Di jurusan PPLG, saya belajar bahwa setiap kesalahan adalah
+             bug yang harus diperbaiki, bukan alasan untuk berhenti
+        </p>
+
+        <div class="action-buttons">
+           <button>&#128077 Like</button>
+           <button>&#128172 Comment</button>
+           <button>&#xF16D Share</button>
+        </div>
+    </article>
+    
+    <div class="container">
+    <div class="row">
+
+        <div class="column">
+            <h2>Skill</h2>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Menggambar</li>
+                <li>Bermain dan mendengarkan musik</li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Pengalaman</h2>
+            <ul>
+                <li>Berorganisasi</li>
+                <li>Mendesain Canva</li>
+                <li>Membuat web sederana</li>
+            </ul>
+        </div>
+
+    </div>
+    </div>
+
+    <footer>
+        copyright &copy; X PPLG 
+    </footer>
+</body>
+</html>
