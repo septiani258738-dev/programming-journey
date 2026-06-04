@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>18 Karya Chairil Anwar - Digital Archive</title>
+    <style>
+        /* --- Pengaturan Dasar --- */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-weight: 300; 
+            margin: 0;
+            background-color: white; /* warna latar halaman */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #004d40; /* hijau tua tema klasik */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky; /* header tetap menempel di atas */
+            top: 0;
+            z-index: 100; /* agar tidak tertutup konten lain */
+        }
+
+        h1.judul-utama {
+            text-align: center;
+            margin: 30px 20px 10px;
+            color: black;
+            font-size: 1.8rem;
+            font-weight: 400;
+        }
+
+        p.subjudul-utama {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        /* --- Grid Rak Buku --- */
+        .wadah-rak {
+            display: grid;
+            /* susunan kolom otomatis mengikuti lebar layar */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 15px;
+            padding: 0 20px 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .kartu-buku {
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* animasi halus saat di-hover */
+            text-decoration: none;
+            aspect-ratio: 3/4; /* proporsi kartu menyerupai buku */
+        }
+
+        /* Efek hover kartu */
+        .kartu-buku:hover {
+            transform: translateY(-5px); /* kartu naik sedikit */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .kartu-buku h2 {
+            font-size: 1.1rem;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .kartu-buku span.tahun {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .btn-buka-rak {
+            background-color: grey;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 2px solid lightgrey;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        /* Variasi warna kartu otomatis berulang */
+        .kartu-buku:nth-child(3n+1) { background-color: #4A1525; } 
+        .kartu-buku:nth-child(3n+2) { background-color: #101942; } 
+        .kartu-buku:nth-child(3n+3) { background-color: #02332b; }
+
+        /* --- Jendela Baca (Overlay/Modal) --- */
+        .lapisan-pembaca {
+            position: fixed; /* mengunci tampilan di layar penuh */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7); /* latar hitam transparan */
+            display: none; /* disembunyikan sebelum diklik */
+            overflow-y: auto;
+            z-index: 1000;
+            backdrop-filter: blur(5px); /* efek blur di belakang modal */
+        }
+
+        /* memunculkan overlay saat id-nya dipanggil (diklik) */
+        .lapisan-pembaca:target {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .konten-pembaca {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            animation: munculPerlahan 0.3s ease;
+        }
+
+        /* animasi modal muncul */
+        @keyframes munculPerlahan {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tombol-kembali {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 15px;
+            background-color: #004d40;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid white;
+        }
+
+        .kertas-putih {
+            background: #fffafa; /* putih gading agar nyaman dibaca */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .kertas-putih h2 {
+            color: #483C32;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            margin-top: 0;
+            font-weight: normal;
+        }
+
+        .teks-puisi {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #222;
+            white-space: pre-line; /* menjaga spasi dan enter sesuai teks asli */
+            font-family: Georgia, serif; /* font gaya sastra */
+        }
+
+        /* --- Tampilan Responsif (HP) --- */
+        @media (max-width: 600px) {
+            .wadah-rak { 
+                grid-template-columns: repeat(2, 1fr); /* ubah jadi 2 kolom di HP */
+            } 
+            .kartu-buku h2 { font-size: 0.95rem; }
+            .kertas-putih { padding: 20px; }
+            .kertas-putih h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>Arsip Digital - Sastra Indonesia</header>
+
+    <h1 class="judul-utama">18 Mahakarya Chairil Anwar</h1>
+    <p class="subjudul-utama">Pilih dan ketuk buku untuk membaca puisi</p>
+
+    <div class="wadah-rak">
+        <a href="#baca-aku" class="kartu-buku">
+            <h2>Aku</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-doa" class="kartu-buku">
+            <h2>Doa</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-karawang" class="kartu-buku">
+            <h2>Karawang-Bekasi</h2>
+            <span class="tahun">(1948)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-diponegoro" class="kartu-buku">
+            <h2>Diponegoro</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-senja" class="kartu-buku">
+            <h2>Senja di Pelabuhan Kecil</h2>
+            <span class="tahun">(1946)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-cintaku" class="kartu-buku">
+            <h2>Cintaku Jauh di Pulau</h2>
+            <span class="tahun">(1946)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-penerimaan" class="kartu-buku">
+            <h2>Penerimaan</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-sajakputih" class="kartu-buku">
+            <h2>Sajak Putih</h2>
+            <span class="tahun">(1944)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-deru" class="kartu-buku">
+            <h2>Cermin (Deru Campur Debu)</h2>
+            <span class="tahun">(1949)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-kesabaran" class="kartu-buku">
+            <h2>Kesabaran</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-hampa" class="kartu-buku">
+            <h2>Hampa</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-malam" class="kartu-buku">
+            <h2>Malam</h2>
+            <span class="tahun">(1945)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-terampas" class="kartu-buku">
+            <h2>Yang Terampas & Yang Putus</h2>
+            <span class="tahun">(1949)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-catetan" class="kartu-buku">
+            <h2>Catetan Th. 1946</h2>
+            <span class="tahun">(1946)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-siasia" class="kartu-buku">
+            <h2>Sia-Sia</h2>
+            <span class="tahun">(1943)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-berada-kembali" class="kartu-buku">
+            <h2>Aku Berada Kembali</h2>
+            <span class="tahun">(1949)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-deru-asli" class="kartu-buku">
+            <h2>Deru Campur Debu</h2>
+            <span class="tahun">(1949)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+
+        <a href="#baca-bung-karno" class="kartu-buku">
+            <h2>Persetujuan dengan Bung Karno</h2>
+            <span class="tahun">(1948)</span>
+            <div class="btn-buka-rak">Buka</div>
+        </a>
+    </div>
+
+    <!-- 1. Aku -->
+    <div id="baca-aku" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Aku</h2>
+                <div class="teks-puisi">
+                Kalau sampai waktunya
+                'Ku mau tak seorang kan merayu
+                Tidak juga kau
+                  
+                Tak perlu sedu sedan itu
+                  
+                Aku ini binatang jalang
+                Dari kumpulannya terbuang
+                  
+                Biar peluru menembus kulitku
+                Aku tetap meradang menerjang
+                  
+                Luka dan bisa kubawa berlari
+                Berlari
+                Hingga hilang pedih peri
+                  
+                Dan aku akan lebih tidak perduli
+                Aku mau hidup seribu tahun lagi</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Doa -->
+    <div id="baca-doa" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Doa</h2>
+                <div class="teks-puisi">
+                Tuhanku
+                Dalam termangu
+                Aku masih menyebut nama-Mu
+                  
+                Biar susah sungguh
+                Mengingat Kau penuh seluruh
+                  
+                Caya-Mu panas suci
+                Tinggal kerdip lilin di kelam sunyi
+                  
+                Tuhanku
+                Aku hilang bentuk
+                Remuk
+                  
+                Tuhanku
+                Aku mengembara di negeri asing
+                  
+                Tuhanku
+                Di pintu-Mu aku mengetuk
+                Aku tidak bisa berpaling</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Karawang-Bekasi -->
+    <div id="baca-karawang" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Karawang-Bekasi</h2>
+                <div class="teks-puisi">
+                Kami yang kini terbaring antara Karawang-Bekasi
+                tidak bisa teriak "Merdeka" dan angkat senjata lagi.
+                Tapi siapakah yang tidak mendengarkan deru kami,
+                terbayang kami maju dan mendegap hati?
+                  
+                Kami bicara padamu dalam hening di malam sepi
+                Jika dada rasa hampa dan jam dinding yang berdetak
+                Kami mati muda. Yang tinggal tulang diliputi debu.
+                Kenang, kenanglah kami.
+                  
+                Teruskan, teruskan jiwa kami
+                Menjaga Bung Karno
+                menjaga Bung Hatta
+                menjaga Bung Sjahrir</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Diponegoro -->
+    <div id="baca-diponegoro" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Diponegoro</h2>
+                <div class="teks-puisi">
+                Di masa pembangunan ini
+                tuan hidup kembali
+                Dan bara kagum menjadi api
+                  
+                Di depan sekali tuan menanti
+                Tak gentar. Lawan banyaknya seratus kali.
+                Pedang di kanan, keris di kiri
+                Berselempang semangat yang tak bisa mati.
+                  
+                MAJU
+                Ini barisan tak bergenderang-berpalu
+                Kepercayaan tanda menyerbu.
+                  
+                Sekali berarti
+                Sudah itu mati.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Senja di Pelabuhan Kecil -->
+    <div id="baca-senja" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Senja di Pelabuhan Kecil</h2>
+                <div class="teks-puisi">
+                Ini kali tidak ada yang mencari cinta
+                di antara gudang, rumah tua, pada cerita
+                tiang serta temali. Kapal, perahu tiada berlaut
+                menghembus diri dalam mempercaya mau berpaut
+                  
+                Gerimis mempercepat kelam. Ada juga kelepak elang
+                menyinggung muram, desir hari lari berenang
+                menemu bujuk pangkal akanan. Tidak bergerak
+                dan kini tanah dan air tidur hilang ombak.
+                  
+                Tiada lagi. Aku sendiri. Berjalan
+                menyisir semenanjung, masih pengap harap
+                sekali tiba di ujung dan sekalian selamat jalan
+                dari pantai keempat, sedu penghabisan bisa terdekap.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Cintaku Jauh di Pulau -->
+    <div id="baca-cintaku" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Cintaku Jauh di Pulau</h2>
+                <div class="teks-puisi">
+                Cintaku jauh di pulau,
+                gadis manis, sekarang iseng sendiri
+                  
+                Perahu melancar, bulan memancar,
+                di leher kukalungkan ole-ole buat si pacar.
+                angin membantu, laut terang, tapi terasa
+                aku tidak 'kan sampai padanya.
+                  
+                Di air yang tenang, di angin mendayu,
+                di perasaan penghabisan segala melaju
+                Ajal bertakhta, sambil berkata:
+                "Tujukan perahu ke pangkuanku saja,"</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Penerimaan -->
+    <div id="baca-penerimaan" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Penerimaan</h2>
+                <div class="teks-puisi">
+                Kalau kau mau kuterima kau kembali
+                Dengan sepenuh hati
+                  
+                Aku masih tetap sendiri
+                  
+                Kutahu kau bukan yang dulu lagi
+                Bak kembang sari sudah terbagi
+                  
+                Jangan tunduk! Tentang aku dengan berani
+                  
+                Kalau kau mau kuterima kau kembali
+                Untukku sendiri tapi
+                  
+                Sedang dengan cermin aku enggan berbagi.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Sajak Putih -->
+    <div id="baca-sajakputih" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Sajak Putih</h2>
+                <div class="teks-puisi">
+                Bersandar pada tari warna pelangi
+                Kau depanku bertudung sutra senja
+                Di hitam matamu kembang mawar dan melati
+                Harum rambutmu mengalun bergelut senda
+                  
+                Sepi menyanyi, malam dalam mendoa tiba
+                Meriak muka air kolam jiwa
+                Dan dalam dadaku memerdu lagu
+                Menarik menari seluruh aku
+                  
+                Hidup dari hidupku, pintu terbuka
+                Selama matamu bagiku menengadah
+                Selama kau darah mengalir dari luka
+                Antara kita Mati datang tidak membelah...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. Cermin -->
+    <div id="baca-deru" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Cermin</h2>
+                <div class="teks-puisi">
+                Aku berkaca
+                Ini muka penuh luka
+                Siapa punya?
+                  
+                Kudengar menyeru menyeru
+                Dalam hatiku
+                Apa hanya angin lalu?
+                  
+                Lagu lain pula
+                Menggelepar di tengah malam buta
+                  
+                Ah!
+                Segala menebal, segala mengental
+                Segala tak ku kenal
+                Selamat tinggal!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. Kesabaran -->
+    <div id="baca-kesabaran" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Kesabaran</h2>
+                <div class="teks-puisi">
+                Aku tak bisa tidur
+                Orang ngomong, anjing nggonggong
+                Dunia jauh mengabur
+                Kelam mendinding lorong
+                  
+                Suara makin baur
+                Punggungku mati debu
+                Dada mendengkur
+                Dalam ruang rindu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. Hampa -->
+    <div id="baca-hampa" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Hampa</h2>
+                <div class="teks-puisi">
+                Sepi di luar. Sepi menekan mendesak.
+                Lurus kaku pohonan. Tak bergerak
+                Sampai ke puncak. Sepi memagut,
+                Tak satu kuasa melepas-renggut
+                  
+                Segala menanti. Menanti. Menanti.
+                Sepi.
+                Tambah ini menanti jadi mencekik
+                Memberat-mencekung punda
+                Sampai binasa segala. Belum apa-apa
+                Udara dituba. Setan bertempik
+                  
+                Ini sepi terus ada. Dan menanti.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 12. Malam -->
+    <div id="baca-malam" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Malam</h2>
+                <div class="teks-puisi">
+                Mulai kelam
+                belum buntu malam
+                kami masih berjaga
+                -Thermopylae?-
+                  
+                - jagal tidak dikenal?
+                tapi nanti
+                before siang membentang
+                kami sudah tenggelam
+                hilang</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 13. Yang Terampas & Yang Putus -->
+    <div id="baca-terampas" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Yang Terampas dan Yang Putus</h2>
+                <div class="teks-puisi">
+                Kelam dan angin lalu mempesiang diriku,
+                menggigir juga ruang di mana dia yang kuingin,
+                malam tambah merasuk, rimba jadi semati tugu
+                  
+                Di Karet, di Karet (daerahku y.a.d) sampai juga deru dingin
+                  
+                Aku berbenah dalam kamar, dalam diriku jika kau datang
+                dan aku bisa lagi lepaskan kisah baru padamu;
+                tapi kini hanya tangan yang bergerak lantang
+                
+                Tubuhku diam dan sendiri, cerita dan peristiwa berlalu beku</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 14. Catetan Th. 1946 -->
+    <div id="baca-catetan" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Catetan Tahun 1946</h2>
+                <div class="teks-puisi">
+                Ada tanganku, sekali akan jemu terkulai,
+                Mainan cahya di air hilang bentuk dalam kabut,
+                Dan suara yang disayang 'kan berhenti membelai.
+                Ada pisau terkalung di leherku; ada benang berliku dalam dahan.
+                  
+                Aku sendiri yang menyesah tubuhku di jalan
+                Yang membelit leherku, yang kusut dalam dahan
+                  
+                Mari kita menyanyi
+                Karena pisau sudah di leher.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 15. Sia-Sia -->
+    <div id="baca-siasia" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Sia-Sia</h2>
+                <div class="teks-puisi">
+                Penghabisan kali itu kau datang
+                Membawa karangan pelbagai kembang
+                Mawar merah dan melati putih:
+                Darah dan Suci
+                Kau tebarkan depanku
+                Serta pandang yang memastikan: Untukmu.
+                  
+                Lalu kita sama termangu
+                Saling bertanya: Apakah ini?
+                Cinta? Kita berdua tak mengerti
+                  
+                Sehari kita bersama. Tak hampir-menghampiri.
+                  
+                Ah! Hatiku yang tak mau memberi
+                Mampus kau dikoyak-koyak sepi.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 16. Aku Berada Kembali -->
+    <div id="baca-berada-kembali" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Aku Berada Kembali</h2>
+                <div class="teks-puisi">
+                Aku berada kembali. Banyak yang asing:
+                air mengalir tukar warna, babut tua di ruang dihembus angin
+                berpusing.
+                
+                Kain putih di dada melebar, sekedar penolak sunyi;
+                dan dalam liang-memori, malam menggali kuburku sendiri.
+                
+                Dari arah yang tak disangka, tangan menuding,
+                menunjuk padaku: Engkaulah yang kucari!
+                
+                Aku diam. Berdiri di batas tipis, antara ada dan tiada,
+                menanti waktu mengatup pintu sepisepi.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 17. Deru Campur Debu -->
+    <div id="baca-deru-asli" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Deru Campur Debu</h2>
+                <div class="teks-puisi">
+                Menyusur semenanjung, pasir dan air,
+                ombak memecah, membuang buih ke kaki;
+                aku berjalan, membawa deru dalam hati,
+                campur debu jalanan yang tak kunjung berakhir.
+                
+                Hari berlari, malam merayap pasti,
+                tapi impian belum juga mau mengalah,
+                di antara letih dan langkah yang patah,
+                kutemukan kembali arti berani mati.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 18. Persetujuan dengan Bung Karno -->
+    <div id="baca-bung-karno" class="lapisan-pembaca">
+        <div class="konten-pembaca">
+            <a href="#" class="tombol-kembali">← Tutup</a>
+            <div class="kertas-putih">
+                <h2>Persetujuan dengan Bung Karno</h2>
+                <div class="teks-puisi">
+                Ayo! Bung Karno kasih tangan mari kita bikin janji
+                Aku sudah cukup lama dengar bicaramu, dipanggang oleh semangatmu, digoreng oleh gelarmu
+                
+                Aku dan kau tahu, ini kapal jahanam bisa tenggelam seketika
+                jika kita saling berpaling atau lengah meraba kemudi.
+                
+                Di leherku sudah melingkar rantai besi yang kautempa,
+                sekarang mari kita dayung bersama, sampai ke ujung sajak ini!</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
